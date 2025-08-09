@@ -4,9 +4,6 @@ A Python script able to modify an Intel ME firmware image with the final purpose
 
 #### Backups
 
-### Comprehensive Firmware Backup & Recovery Guide for Acer Nitro AN515-55
-*Critical: Backup **before** any firmware modification. Bricked devices require hardware tools for recovery.*
-
 ---
 
 #### **I. Pre-Brick Backup Procedure**  
