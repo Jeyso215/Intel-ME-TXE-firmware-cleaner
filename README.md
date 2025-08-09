@@ -1,7 +1,50 @@
-# me\_cleaner [![Donation](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=B5HCXCLZVCVZ8)
+#### Intel ME TXE Firmware Cleaner
 
-_me\_cleaner_ is a Python script able to modify an Intel ME firmware image with
-the final purpose of reducing its ability to interact with the system.
+A Python script able to modify an Intel ME firmware image with the final purpose of reducing its ability to interact with the system.
+
+#### Solus Usage
+
+### 1. **Hardware Exposure**
+- IME operates independently of OS (Linux) and boots before the main CPU.
+- Claims about capabilities (TCP/IP connections, hardware access) are technically accurate but require context:
+  - IME *can* access hardware at firmware level, but **practical exploitation requires physical access or high-level firmware vulnerabilities**.
+
+### 2. **Can You Be Protected?**
+#### **Disabling IME: Limited Options**
+- **Full disable is impossible** on consumer hardware
+- **Partial mitigations exist** (with trade-offs):
+  - **"Neutering"**: Using tools like this repo to remove IME functionality from firmware.
+    → *Risks*: May brick your system, void warranty, and break features (Thunderbolt, Wake-on-LAN, etc).
+  - **OS-level disable**:  
+    ```bash
+    # In Linux (Solus), block IME interface:
+    echo "blacklist intel_mei" | sudo tee /etc/modprobe.d/blacklist-ime.conf
+    ```
+    → *Limitation*: Only stops OS communication with IME; IME still runs at hardware level.
+  - **BIOS settings**: Some enterprise boards allow disabling IME (e.g., "Intel ME Mode" → "Disabled").
+    → *Reality*: Consumer-grade laptops **lacks this option** (common in gaming/workstation devices).
+
+#### **AMD PSP Comparison**
+- AMD PSP has similar architecture but **even fewer disable options** on consumer hardware.
+- BIOS "disable PSP" settings (on some motherboards) often only disable *communication* with PSP, not the processor itself.
+
+### 3. **Your Actual Risk Level**
+- **Low for average users**: IME exploits require:
+  - Physical access *or*  
+  - Pre-existing root-level compromise *or*  
+  - Rare firmware vulnerabilities (e.g., [CVE-2017-5705](https://nvd.nist.gov/vuln/detail/CVE-2017-5705)).
+- **High-risk scenarios**: Only relevant if targeted by nation-state actors (e.g., journalists, activists).
+- **Linux advantage**: Solus reduces attack surface vs. Windows/Mac, but **does not bypass IME's hardware access**.
+
+### 4. **Practical Recommendations**
+- **For most users**:  
+  - Keep firmware updated (check [Intel's downloads](https://www.intel.com/content/www/us/en/download/682431/intel-management-engine-drivers-for-windows-10-and-windows-11.html)). 
+  - Disable unused features (e.g., Intel AMT in BIOS if available).  
+  - Use hardware kill switches for wi-fi, bluetooth, gps/location, and mic/camera (physical mitigation).  
+- **For high-security needs**:  
+  - Consider **Libreboot**-compatible hardware (e.g., older ThinkPads with IME physically removed).  
+  - **Purism Librem laptops** with deblobbed firmware.  
+  - Avoid Intel/AMD consumer hardware entirely (opt for RISC-V or ARM-based systems).  
 
 ## Intel ME
 
