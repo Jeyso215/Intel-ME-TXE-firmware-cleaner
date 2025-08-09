@@ -19,6 +19,18 @@ A Python script able to modify an Intel ME firmware image with the final purpose
     ```bash
     # In Linux (Solus), block IME interface:
     echo "blacklist intel_mei" | sudo tee /etc/modprobe.d/blacklist-ime.conf
+
+    # Check file contents directly in terminal:
+    sudo cat /etc/modprobe.d/blacklist-ime.conf
+
+    # Check file size:
+    ls -lh /etc/modprobe.d/blacklist-ime.conf
+
+    # Check if module is currently loaded:
+    lsmod | grep mei
+
+    # Check if blacklisting is active:
+    modprobe -c | grep intel_mei
     ```
     → *Limitation*: Only stops OS communication with IME; IME still runs at hardware level.
   - **BIOS settings**: Some enterprise boards allow disabling IME (e.g., "Intel ME Mode" → "Disabled").
